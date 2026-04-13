@@ -1,0 +1,26 @@
+name: Test self-hosted runner
+
+on:
+  workflow_dispatch:
+
+  # push:
+  #   branches:
+  #     - test_runner
+
+jobs:
+  build_sw:
+    runs-on: ['self-hosted']
+    # runs-on: ['self-hosted', 'Linux', 'cw-builder']
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: 'main-2.1'
+          submodules: 'recursive'
+          # maybe "recursive" / " true" ?
+
+      - name: Run Vivado
+        run: |
+          cd hw/fpga
+          /app/buildVivado.sh
+
